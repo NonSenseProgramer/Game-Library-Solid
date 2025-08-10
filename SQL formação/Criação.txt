@@ -1,0 +1,31 @@
+CREATE TABLE `jogos` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `jogo` varchar(80) NOT NULL,
+  `genero` varchar(30) DEFAULT NULL,
+  `dataLancamento` varchar(10) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+);
+INSERT INTO `jogos` VALUES (1,'GTA V',NULL,NULL),(2,'The Witcher 3',NULL,NULL),(3,'Red Dead Redemption 2',NULL,NULL),(4,'God of War',NULL,NULL),(5,'Hollow Knight',NULL,NULL),(6,'Minecraft',NULL,NULL),(7,'Celeste',NULL,NULL),(8,'Stardew Valley',NULL,NULL),(9,'Dark Souls III',NULL,NULL),(10,'Cyberpunk 2077',NULL,NULL),(11,'Devil May cry','Ação','07/05/2021');
+
+
+CREATE TABLE `usuarios` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `nome` varchar(30) NOT NULL,
+  `senha` text NOT NULL,
+  `tipo_user` varchar(20) NOT NULL,
+  PRIMARY KEY (`id`)
+); 
+
+INSERT INTO `usuarios` VALUES (1,'Pinto','$2a$10$HJjeIlgjsMEdNzwh9am37u2ufE8zzmoYtk047Dy.UVJZM1pyTZwy6','ADM'),(3,'Lucas','$2a$10$8mChdAOSFmd/.nTmUz2ZfO8fyk2EZUtca/AJe94r/OyI87hRy53cC','user');
+
+CREATE TABLE `jogos_jogados` (
+  `id_usuario` int NOT NULL,
+  `id_jogo` int NOT NULL,
+  `status` varchar(30) DEFAULT NULL,
+  `data_jogada` varchar(10) DEFAULT NULL,
+  PRIMARY KEY (`id_usuario`,`id_jogo`),
+  KEY `id_jogo` (`id_jogo`),
+  CONSTRAINT `jogos_jogados_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id`),
+  CONSTRAINT `jogos_jogados_ibfk_2` FOREIGN KEY (`id_jogo`) REFERENCES `jogos` (`id`)
+);
+INSERT INTO `jogos_jogados` VALUES (1,1,'Iniciando','2025-04-25'),(1,4,'Finalizado','2025-04-25'),(1,8,'Finalizado','23/10/2012');

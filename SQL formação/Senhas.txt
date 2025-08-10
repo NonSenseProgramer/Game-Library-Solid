@@ -1,0 +1,1 @@
+A senha de ambos os perfis de usuário é "Flamengo", ela é necessária para acessar o programa, que compara a senha original àquela toda esquisita salva no banco de dados
