@@ -6,6 +6,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import org.mindrot.jbcrypt.BCrypt;
+
+import DAO.Conector;
 // Classe responsável pelas operações de usuário no banco de dados
 public class UsuarioConexao {
 
@@ -14,6 +16,10 @@ public class UsuarioConexao {
     String senhaUser;
     String tipo_user;
     int id;
+    public UsuarioConexao() {
+    Conector conector = new Conector();
+        conector.conectar();
+    }
 
     // Métodos getters e setters
     public String getNome() {
@@ -52,8 +58,6 @@ public class UsuarioConexao {
     // Realiza login do usuário
     public UsuarioConexao conectarUsuario(UsuarioConexao usuario) {
         try {
-            Conector conector = new Conector();
-            conector.conectar();
             String sql = "SELECT * FROM usuarios WHERE nome = ?";
             PreparedStatement stmt = conector.prepareStatement(sql);
             stmt.setString(1, usuario.getNome());
@@ -86,22 +90,9 @@ public class UsuarioConexao {
  
     // Cadastra um novo usuário
     public UsuarioConexao cadastrarUsuario(String nome, String senha) {
-          Conector conector = new Conector();
-        try {
           
-            conector.conectar();
-
-            // Verifica se o nome já existe
-            String sqlCheck = "SELECT nome FROM usuarios WHERE nome = ?";
-            PreparedStatement checarNome = conector.prepareStatement(sqlCheck);
-            checarNome.setString(1, nome);
-            ResultSet resultNome = checarNome.executeQuery();
-
-            if (resultNome.next()) {
-                JOptionPane.showMessageDialog(null, "Nome de usuário já existente");
-                return null;
-            }
-
+     try{
+        if(validaNome(nome)){
             // Inserir novo usuário
             String sqlInsert = "INSERT INTO usuarios(nome, senha, tipo_user) VALUES (?, ?, ?)";
             PreparedStatement stmt = conector.prepareStatement(sqlInsert);
@@ -123,23 +114,23 @@ public class UsuarioConexao {
                 usuario.setSenhaUser(rs.getString("senha"));
                 usuario.setTipo_user(rs.getString("tipo_user"));
 
+                rs.close();
+
                 JOptionPane.showMessageDialog(null, "Usuário registrado com sucesso");
                 return usuario;
             }
-
+}
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Ocorreu algum erro ao cadastrar: " + e.getMessage());
         } finally {
             conector.fecharConexao();
         }
         return null;
-    }
+    }}
     // Registra um novo jogo jogado pelo usuário
     public void registrarJogo(String nomeJogo, String status, String data, UsuarioConexao usuario) {
         try {
-            Conector conector = new Conector();
-            conector.conectar();
-
+         
             nomeJogo = nomeJogo.trim().toUpperCase();
 
             // Busca o jogo pelo nome
@@ -183,7 +174,9 @@ public class UsuarioConexao {
                 }
 
                 sugestoes.close();
+                
                 sugestaoStmt.close();
+                
             }
 
             rs.close();
@@ -197,8 +190,7 @@ public class UsuarioConexao {
     // Adiciona um novo jogo ao banco de dados
     public void adicionarJogo(String jogo, String genero, String dataLancamento) {
         try {
-            Conector conector = new Conector();
-            conector.conectar();
+          
             String sql = "insert INTO jogos (jogo, genero, dataLancamento) values (?, ?, ?)";
             PreparedStatement stmt = conector.prepareStatement(sql);
             stmt.setString(1, jogo);
@@ -211,8 +203,25 @@ public class UsuarioConexao {
         }
     }
 
+    public boolean validaNome (String nome)
+{
+   try {
+        
+            // Verifica se o nome já existe
+            String sqlCheck = "SELECT nome FROM usuarios WHERE nome = ?";
+            PreparedStatement checarNome = conector.prepareStatement(sqlCheck);
+            checarNome.setString(1, nome);
+            ResultSet resultNome = checarNome.executeQuery();
 
-
- }
-
-
+            if (resultNome.next()) {
+                JOptionPane.showMessageDialog(null, "Nome de usuário já existente");
+                return false;
+            }
+            else{
+                return true;
+            }
+        }
+        catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Erro " + e.getMessage());
+        }
+    }
