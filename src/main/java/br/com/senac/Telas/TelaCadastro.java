@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package Telas;
+
 import DAO.*;
 import java.sql.*;
 import javax.swing.JOptionPane;
@@ -145,18 +146,15 @@ public class TelaCadastro extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void botaoCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoCadastrarActionPerformed
-      UsuarioConexao usuario = new UsuarioConexao(); 
-      usuario = usuario.cadastrarUsuario(TextFieldUsuario.getText(), TextFieldSenha.getText());
-      try
-      {
-      Telaopcoes tela = new Telaopcoes(usuario);
-      tela.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-      tela.setVisible(true);
-      }
-      catch(Exception e)
-              {
-              
-              }
+        UsuarioConexao usuario = new UsuarioConexao();
+        usuario = usuario.cadastrarUsuario(TextFieldUsuario.getText(), TextFieldSenha.getText());
+        try {
+            Telaopcoes tela = new Telaopcoes(usuario);
+            tela.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+            tela.setVisible(true);
+        } catch (Exception e) {
+
+        }
     }//GEN-LAST:event_botaoCadastrarActionPerformed
 
     private void TextFieldUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TextFieldUsuarioActionPerformed
@@ -164,8 +162,9 @@ public class TelaCadastro extends javax.swing.JFrame {
     }//GEN-LAST:event_TextFieldUsuarioActionPerformed
 
     private void botaoLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoLoginActionPerformed
-      this.dispose();
-      TelaInicial tela = new TelaInicial(); tela.setVisible(true);
+        this.dispose();
+        TelaInicial tela = new TelaInicial();
+        tela.setVisible(true);
     }//GEN-LAST:event_botaoLoginActionPerformed
 
     /**

@@ -2,13 +2,13 @@
 package DAO;
 
 import java.sql.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import org.mindrot.jbcrypt.BCrypt;
 
 import DAO.Conector;
 // Classe responsável pelas operações de usuário no banco de dados
+
+
 public class UsuarioConexao {
 
     // Atributos do usuário
@@ -16,8 +16,9 @@ public class UsuarioConexao {
     String senhaUser;
     String tipo_user;
     int id;
+ Conector conector = new Conector();
     public UsuarioConexao() {
-    Conector conector = new Conector();
+   
         conector.conectar();
     }
 
@@ -223,5 +224,6 @@ public class UsuarioConexao {
         }
         catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Erro " + e.getMessage());
-        }
-    }
+ return false;       
+}
+}
